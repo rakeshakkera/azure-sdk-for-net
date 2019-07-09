@@ -62,7 +62,10 @@ namespace Microsoft.Azure.Management.Compute.Models
         /// virtual machines in a low priority scale set.
         /// &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview.
         /// Possible values include: 'Deallocate', 'Delete'</param>
-        public VirtualMachineScaleSetVMProfile(VirtualMachineScaleSetOSProfile osProfile = default(VirtualMachineScaleSetOSProfile), VirtualMachineScaleSetStorageProfile storageProfile = default(VirtualMachineScaleSetStorageProfile), VirtualMachineScaleSetNetworkProfile networkProfile = default(VirtualMachineScaleSetNetworkProfile), DiagnosticsProfile diagnosticsProfile = default(DiagnosticsProfile), VirtualMachineScaleSetExtensionProfile extensionProfile = default(VirtualMachineScaleSetExtensionProfile), string licenseType = default(string), string priority = default(string), string evictionPolicy = default(string))
+        /// <param name="billingProfile">Specifies the billing related details
+        /// of a low priority VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version:
+        /// 2019-03-01.</param>
+        public VirtualMachineScaleSetVMProfile(VirtualMachineScaleSetOSProfile osProfile = default(VirtualMachineScaleSetOSProfile), VirtualMachineScaleSetStorageProfile storageProfile = default(VirtualMachineScaleSetStorageProfile), VirtualMachineScaleSetNetworkProfile networkProfile = default(VirtualMachineScaleSetNetworkProfile), DiagnosticsProfile diagnosticsProfile = default(DiagnosticsProfile), VirtualMachineScaleSetExtensionProfile extensionProfile = default(VirtualMachineScaleSetExtensionProfile), string licenseType = default(string), string priority = default(string), string evictionPolicy = default(string), BillingProfile billingProfile = default(BillingProfile))
         {
             OsProfile = osProfile;
             StorageProfile = storageProfile;
@@ -72,6 +75,7 @@ namespace Microsoft.Azure.Management.Compute.Models
             LicenseType = licenseType;
             Priority = priority;
             EvictionPolicy = evictionPolicy;
+            BillingProfile = billingProfile;
             CustomInit();
         }
 
@@ -150,6 +154,14 @@ namespace Microsoft.Azure.Management.Compute.Models
         /// </summary>
         [JsonProperty(PropertyName = "evictionPolicy")]
         public string EvictionPolicy { get; set; }
+
+        /// <summary>
+        /// Gets or sets specifies the billing related details of a low
+        /// priority VMSS. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Minimum
+        /// api-version: 2019-03-01.
+        /// </summary>
+        [JsonProperty(PropertyName = "billingProfile")]
+        public BillingProfile BillingProfile { get; set; }
 
         /// <summary>
         /// Validate the object.

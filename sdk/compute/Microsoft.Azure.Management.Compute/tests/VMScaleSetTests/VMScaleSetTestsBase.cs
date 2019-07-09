@@ -614,7 +614,37 @@ namespace Compute.Tests
             {
                 Assert.Null(vmScaleSetOut.Zones);
                 Assert.Null(vmScaleSetOut.ZoneBalance);
-                Assert.Null(vmScaleSetOut.PlatformFaultDomainCount);
+
+                // Represents the count of target fault domain for availabilitySets created in the VMSS.
+                // If it's is not specified, the default faultDomains count 5 will be used to create availabilitySets.
+                // It can be specified in following cass:
+                //     1. A low priority VMSS is always created with FDCount==UDCount==1.
+                //     2. In zone aware VMScaleSet, customer can specify platformFaultDomainCount in model if multiplePlacementGroup is enabled. 
+                //         1 and 5 are the only allowed platformFaultDomainCount now. By default, it's 1. UpdateDomainCount is still 5 in either case.
+                if (string.Equals(vmScaleSet.VirtualMachineProfile.Priority, 
+                    VirtualMachinePriorityTypes.Low.ToString(), 
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    Assert.Equal(1, vmScaleSetOut.PlatformFaultDomainCount);
+                }
+                else
+                {
+                    Assert.Null(vmScaleSetOut.PlatformFaultDomainCount);
+                }
+            }
+
+            if (string.Equals(vmScaleSet.VirtualMachineProfile.Priority, 
+                VirtualMachinePriorityTypes.Low.ToString(), 
+                StringComparison.OrdinalIgnoreCase))
+            {
+                if (vmScaleSet.VirtualMachineProfile.BillingProfile == null)
+                {
+                    Assert.Equal(-1, vmScaleSetOut.VirtualMachineProfile.BillingProfile?.MaxPrice);
+                }
+                else
+                {
+                    Assert.Equal(vmScaleSet.VirtualMachineProfile.BillingProfile.MaxPrice, vmScaleSetOut.VirtualMachineProfile.BillingProfile?.MaxPrice);
+                }
             }
 
             if(ppgId != null)

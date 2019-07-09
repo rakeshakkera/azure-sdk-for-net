@@ -59,9 +59,54 @@ namespace Compute.Tests
             }
         }
 
+        /// <summary>
+        /// Covers following Operations:
+        /// Create RG
+        /// Create Storage Account
+        /// Create Network Resources
+        /// Get VMScaleSet Model View
+        /// Get VMScaleSet Instance View
+        /// List VMScaleSets in a RG
+        /// List Available Skus
+        /// Delete VMScaleSet
+        /// Delete RG
+        /// </summary>
+        [Fact]
+        [Trait("Name", "TestVMScaleSetVariablePricedLowPriorityVM_Accept_DefaultMaxPrice")]
+        public void TestVMScaleSetVariablePricedLowPriorityVM_Accept_DefaultMaxPrice()
+        {
+            using (MockContext context = MockContext.Start(this.GetType().FullName))
+            {
+                TestVMScaleSetPriorityOperationsInternal(context, VirtualMachinePriorityTypes.Low, new BillingProfile { MaxPrice = -1 });
+            }
+        }
+
+        /// <summary>
+        /// Covers following Operations:
+        /// Create RG
+        /// Create Storage Account
+        /// Create Network Resources
+        /// Get VMScaleSet Model View
+        /// Get VMScaleSet Instance View
+        /// List VMScaleSets in a RG
+        /// List Available Skus
+        /// Delete VMScaleSet
+        /// Delete RG
+        /// </summary>
+        [Fact]
+        [Trait("Name", "TestVMScaleSetVariablePricedLowPriorityVM_Accept_UserSpecifiedMaxPrice")]
+        public void TestVMScaleSetVariablePricedLowPriorityVM_Accept_UserSpecifiedMaxPrice()
+        {
+            using (MockContext context = MockContext.Start(this.GetType().FullName))
+            {
+                TestVMScaleSetPriorityOperationsInternal(context, VirtualMachinePriorityTypes.Low, new BillingProfile { MaxPrice = 100 });
+            }
+        }
+
         private void TestVMScaleSetPriorityOperationsInternal(
             MockContext context,
             string priority,
+            BillingProfile billingProfile = null,
             bool hasManagedDisks = false,
             IList<string> zones = null
             )
@@ -76,7 +121,7 @@ namespace Compute.Tests
 
             try
             {
-                Environment.SetEnvironmentVariable("AZURE_VM_TEST_LOCATION", "westcentralus");
+                Environment.SetEnvironmentVariable("AZURE_VM_TEST_LOCATION", "centraluseuap");
                 EnsureClientsInitialized(context);
                 ImageReference imageRef = GetPlatformVMImage(useWindowsImage: true);
 
@@ -98,6 +143,7 @@ namespace Compute.Tests
                             vmScaleSet.Sku.Name = VirtualMachineSizeTypes.StandardA1;
                             vmScaleSet.Sku.Tier = "Standard";
                             vmScaleSet.Sku.Capacity = 2;
+                            vmScaleSet.VirtualMachineProfile.BillingProfile = billingProfile;
                         },
                     createWithManagedDisks: hasManagedDisks,
                     zones: zones);

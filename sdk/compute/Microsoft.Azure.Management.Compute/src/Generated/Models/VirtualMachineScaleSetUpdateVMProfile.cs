@@ -43,7 +43,10 @@ namespace Microsoft.Azure.Management.Compute.Models
         /// extension profile.</param>
         /// <param name="licenseType">The license type, which is for bring your
         /// own license scenario.</param>
-        public VirtualMachineScaleSetUpdateVMProfile(VirtualMachineScaleSetUpdateOSProfile osProfile = default(VirtualMachineScaleSetUpdateOSProfile), VirtualMachineScaleSetUpdateStorageProfile storageProfile = default(VirtualMachineScaleSetUpdateStorageProfile), VirtualMachineScaleSetUpdateNetworkProfile networkProfile = default(VirtualMachineScaleSetUpdateNetworkProfile), DiagnosticsProfile diagnosticsProfile = default(DiagnosticsProfile), VirtualMachineScaleSetExtensionProfile extensionProfile = default(VirtualMachineScaleSetExtensionProfile), string licenseType = default(string))
+        /// <param name="billingProfile">Specifies the billing related details
+        /// of a low priority VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version:
+        /// 2019-03-01.</param>
+        public VirtualMachineScaleSetUpdateVMProfile(VirtualMachineScaleSetUpdateOSProfile osProfile = default(VirtualMachineScaleSetUpdateOSProfile), VirtualMachineScaleSetUpdateStorageProfile storageProfile = default(VirtualMachineScaleSetUpdateStorageProfile), VirtualMachineScaleSetUpdateNetworkProfile networkProfile = default(VirtualMachineScaleSetUpdateNetworkProfile), DiagnosticsProfile diagnosticsProfile = default(DiagnosticsProfile), VirtualMachineScaleSetExtensionProfile extensionProfile = default(VirtualMachineScaleSetExtensionProfile), string licenseType = default(string), BillingProfile billingProfile = default(BillingProfile))
         {
             OsProfile = osProfile;
             StorageProfile = storageProfile;
@@ -51,6 +54,7 @@ namespace Microsoft.Azure.Management.Compute.Models
             DiagnosticsProfile = diagnosticsProfile;
             ExtensionProfile = extensionProfile;
             LicenseType = licenseType;
+            BillingProfile = billingProfile;
             CustomInit();
         }
 
@@ -95,6 +99,14 @@ namespace Microsoft.Azure.Management.Compute.Models
         /// </summary>
         [JsonProperty(PropertyName = "licenseType")]
         public string LicenseType { get; set; }
+
+        /// <summary>
+        /// Gets or sets specifies the billing related details of a low
+        /// priority VMSS. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Minimum
+        /// api-version: 2019-03-01.
+        /// </summary>
+        [JsonProperty(PropertyName = "billingProfile")]
+        public BillingProfile BillingProfile { get; set; }
 
     }
 }
