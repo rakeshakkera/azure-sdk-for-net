@@ -645,6 +645,15 @@ namespace Compute.Tests
                 {
                     Assert.Equal(vmScaleSet.VirtualMachineProfile.BillingProfile.MaxPrice, vmScaleSetOut.VirtualMachineProfile.BillingProfile?.MaxPrice);
                 }
+
+                if (vmScaleSet.VirtualMachineProfile.EvictionPolicy == null)
+                {
+                    Assert.Equal(VirtualMachineEvictionPolicyTypes.Deallocate, vmScaleSetOut.VirtualMachineProfile.EvictionPolicy);
+                }
+                else
+                {
+                    Assert.Equal(vmScaleSet.VirtualMachineProfile.EvictionPolicy, vmScaleSetOut.VirtualMachineProfile.EvictionPolicy);
+                }
             }
 
             if(ppgId != null)
